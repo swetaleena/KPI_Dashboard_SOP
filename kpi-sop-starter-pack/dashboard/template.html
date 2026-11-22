@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="theme-color" content="#0f2a4a">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>KPI + SOP Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f2a4a;--bg:#f4f6f9;--surface:#fff;--ink:#0f172a;--muted:#475569;--line:#e2e8f0;--accent:#1d4ed8;--accent-ink:#fff;
+--ok:#047857;--ok-bg:#d1fae5;--warn:#92400e;--warn-bar:#d97706;--warn-bg:#fef3c7;--crit:#b91c1c;--crit-bg:#fee2e2;--info-bg:#dbeafe;--shadow:0 1px 2px rgba(15,23,42,.07);color-scheme:light;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--navy:#0a1424;--bg:#0b1220;--surface:#111b30;--ink:#e8edf6;--muted:#a3b1c6;--line:#22304a;--accent:#7aa2ff;--accent-ink:#0b1220;--ok:#34d399;--ok-bg:#0f2f25;--warn:#fbbf24;--warn-bar:#f59e0b;--warn-bg:#33290f;--crit:#f87171;--crit-bg:#341a1f;--info-bg:#17294d;--shadow:none;color-scheme:dark}}
+:root[data-theme="dark"]{--navy:#0a1424;--bg:#0b1220;--surface:#111b30;--ink:#e8edf6;--muted:#a3b1c6;--line:#22304a;--accent:#7aa2ff;--accent-ink:#0b1220;--ok:#34d399;--ok-bg:#0f2f25;--warn:#fbbf24;--warn-bar:#f59e0b;--warn-bg:#33290f;--crit:#f87171;--crit-bg:#341a1f;--info-bg:#17294d;--shadow:none;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-variant-numeric:tabular-nums}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--navy);z-index:10}
+.hdr{background:var(--navy);color:#e8eef8}
+.hdr .in{max-width:1120px;margin:0 auto;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px}
+.hdr b{font-size:17px;color:#fff;letter-spacing:-.01em}
+.pill{border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:1px 10px;font-size:12px;color:#fff}
+main{max-width:1120px;margin:0 auto;padding:22px 16px 60px}
+h1{font-size:clamp(22px,3.6vw,30px);line-height:1.2;letter-spacing:-.02em;margin:0 0 4px;font-weight:700}
+.sub{color:var(--muted);margin:0 0 16px;max-width:64ch}
+h2{font-size:17px;font-weight:600;margin:30px 0 2px}
+.hint{color:var(--muted);margin:0 0 10px;font-size:13.5px}
+.sumrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:14px}
+.tile{display:flex;align-items:baseline;gap:8px;background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--line);border-radius:10px;padding:9px 14px;box-shadow:var(--shadow);color:var(--muted);font-size:13.5px}
+.tile .n{font-size:24px;font-weight:700;color:var(--ink)}
+.tile.critical{border-top-color:var(--crit)}.tile.critical .n{color:var(--crit)}
+.tile.alert{border-top-color:var(--warn-bar)}.tile.alert .n{color:var(--warn)}
+.tile.ok{border-top-color:var(--ok)}.tile.ok .n{color:var(--ok)}
+.tile.info{border-top-color:var(--accent)}.tile.info .n{color:var(--accent)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;box-shadow:var(--shadow)}
+.card.alert{border-left:4px solid var(--warn-bar)}.card.critical{border-left:4px solid var(--crit)}
+.k{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13.5px;color:var(--muted)}
+.v{font-size:28px;font-weight:700;letter-spacing:-.02em;margin:4px 0 0;color:var(--ink)}
+.d{font-size:13px;font-weight:500}.good{color:var(--ok)}.bad{color:var(--crit)}
+svg{display:block;width:100%}
+svg.sp{height:32px;margin-top:8px;color:var(--accent)}
+.alert svg.sp{color:var(--warn-bar)}.critical svg.sp{color:var(--crit)}
+.badge{font-weight:600;font-size:12px;border-radius:20px;padding:1px 9px;white-space:nowrap}
+.badge.ok{color:var(--ok);background:var(--ok-bg)}.badge.alert{color:var(--warn);background:var(--warn-bg)}.badge.critical{color:var(--crit);background:var(--crit-bg)}
+.tabs{display:inline-flex;gap:0;flex-wrap:wrap;margin-bottom:10px;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.tabs button{border:0;border-radius:0;border-right:1px solid var(--line);padding:6px 12px;font-weight:500}
+.tabs button:last-child{border-right:0}
+button{font:inherit;font-weight:600;border-radius:8px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);padding:6px 13px;cursor:pointer}
+button.ghost{background:transparent;color:var(--accent)}
+button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+button[aria-pressed="false"]{background:var(--surface);color:var(--ink)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.chart{height:220px;color:var(--accent)}
+.axis{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:6px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:780px){.two{grid-template-columns:1fr}}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border:0}
+.meta{font-size:12.5px;color:var(--muted)}
+.task{padding:12px 0;border-bottom:1px solid var(--line)}.task:last-child{border:0}
+.task label{display:flex;gap:8px;align-items:flex-start;padding:3px 0;cursor:pointer}
+.bar{height:6px;background:var(--line);border-radius:4px;overflow:hidden;margin:6px 0}
+.bar i{display:block;height:100%;background:var(--ok);transition:width .25s}
+.tag{font-size:12px;background:var(--info-bg);border-radius:20px;padding:1px 9px;color:var(--accent)}
+.empty{color:var(--muted);padding:6px 0}
+table{width:100%;border-collapse:collapse;font-size:14px}
+.scroll{overflow-x:auto}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-weight:600;color:var(--muted);background:var(--bg)}
+input[type=number]{width:84px;font:inherit;padding:4px 7px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink)}
+details{margin-top:14px}summary{cursor:pointer;font-weight:600}
+.msg{font-size:13px;color:var(--warn);margin-top:6px}
+</style>
+</head>
+<body>
+<header class="hdr"><div class="in"><b id="client"></b><span><span class="pill" id="src"></span> <span id="range"></span></span></div></header>
+<main>
+<h1 id="headline"></h1>
+<p class="sub" id="sub"></p>
+<div class="sumrow" id="sum"></div>
+<div class="grid" id="cards"></div>
+
+<h2>Trend</h2>
+<p class="hint">Rolling 7-day values. The dashed line is the alert level.</p>
+<div class="card"><div class="tabs" id="tabs"></div><div id="chart"></div></div>
+
+<div class="two">
+<section><h2>Needs action</h2><p class="hint">Each breached KPI is linked to a checklist.</p><div class="card" id="alerts"></div></section>
+<section><h2>Team tasks</h2><p class="hint">Saved in this browser.</p><div class="card" id="tasks"></div></section>
+</div>
+
+<h2>Stock cover</h2>
+<div class="card scroll" id="stock"></div>
+
+<details class="card"><summary>Alert levels</summary>
+<p class="hint">Change a level and the dashboard updates. “Below” means bad when the value falls under it; “above” means bad when it rises over it.</p>
+<div class="scroll" id="thr"></div></details>
+
+<details class="card"><summary>Use your own data</summary>
+<p class="hint">Load files in the same format as the sample pack. Nothing leaves your browser.</p>
+<p><label>Daily KPIs file (daily_kpis.csv) <input type="file" id="f1" accept=".csv"></label></p>
+<p><label>Alert levels file, optional (kpi_thresholds.csv) <input type="file" id="f2" accept=".csv"></label></p>
+<p><button class="ghost" id="reset">Back to sample data</button></p>
+<div class="msg" id="err"></div></details>
+</main>
+
+<script>
+const CLIENT="Kōra Home";
+const D=__DATA__;
+const pct1=v=>(v*100).toFixed(1)+"%",pct2=v=>(v*100).toFixed(2)+"%",usd=v=>"$"+Math.round(v).toLocaleString("en-US");
+const M={revenue_per_day:["Revenue per day",usd],orders_per_day:["Orders per day",v=>Math.round(v)],aov:["Average order value",v=>"$"+v.toFixed(2)],
+conversion_rate:["Conversion rate",pct2],mer:["Blended ROAS (MER)",v=>v.toFixed(2)+"×"],cac:["Acquisition cost (CAC)",v=>"$"+v.toFixed(2)],
+repeat_order_share:["Repeat order share",pct1],refund_rate:["Refund rate",pct1],avg_fulfilment_hours:["Fulfilment time",v=>v.toFixed(1)+" h"],
+on_hold_orders:["Orders on hold (7 days)",v=>Math.round(v)],skus_below_reorder:["SKUs below reorder point",v=>Math.round(v)]};
+const LAB={ok:"✓ On track",alert:"! Alert",critical:"‼ Critical"};
+const HEAD=["revenue_per_day","orders_per_day","aov","conversion_rate","mer","cac","refund_rate","repeat_order_share"];
+const CH=["revenue_per_day","mer","cac","conversion_rate","refund_rate"];
+let rows=D.daily,TH=D.th.map(x=>({...x})),prods=D.products,own=false,ck="mer",tasks=[];
+try{tasks=JSON.parse(localStorage.getItem("kpi_tasks_v1")||"[]")}catch(e){}
+const save=()=>{try{localStorage.setItem("kpi_tasks_v1",JSON.stringify(tasks))}catch(e){}};
+const $=id=>document.getElementById(id);
+const fd=s=>new Date(s+"T00:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric"});
+
+function agg(r){const n=r.length,s=k=>r.reduce((a,x)=>a+(+x[k]||0),0),f=r.map(x=>+x.avg_fulfilment_hours).filter(x=>x>0);
+return{revenue_per_day:s("revenue")/n,orders_per_day:s("orders")/n,aov:s("revenue")/s("orders"),conversion_rate:s("orders")/s("sessions"),
+mer:s("revenue")/s("ad_spend"),cac:s("ad_spend")/s("new_customers"),repeat_order_share:1-s("new_customers")/s("orders"),
+refund_rate:s("refunds")/s("revenue"),avg_fulfilment_hours:f.length?f.reduce((a,b)=>a+b,0)/f.length:0,on_hold_orders:s("on_hold_orders")}}
+const status=(t,v)=>{const b=x=>t.direction==="min"?v<x:v>x;return b(t.critical_at)?"critical":b(t.alert_at)?"alert":"ok"};
+function calc(){const cur=agg(rows.slice(-7)),pri=agg(rows.slice(-14,-7));
+cur.skus_below_reorder=prods.filter(p=>p.stock<p.reorder).length;
+return TH.map(t=>({t,v:cur[t.kpi],p:pri[t.kpi],s:status(t,cur[t.kpi])}))}
+const series=k=>{const o=[];for(let i=6;i<rows.length;i++)o.push(agg(rows.slice(i-6,i+1))[k]);return o};
+function line(s,t,cls){const all=s.concat(t==null?[]:[t]),lo=Math.min(...all),hi=Math.max(...all),pad=(hi-lo)*.12||1;
+const Y=v=>100-(v-lo+pad)/(hi-lo+2*pad)*100,X=i=>i/(s.length-1)*100;
+const p=s.map((v,i)=>X(i).toFixed(1)+","+Y(v).toFixed(1)).join(" ");
+const th=t==null?"":`<line x1="0" x2="100" y1="${Y(t)}" y2="${Y(t)}" stroke="var(--warn-bar)" stroke-opacity=".85" stroke-dasharray="3 3" stroke-width="1.5" vector-effect="non-scaling-stroke"/>`;
+return{svg:`<svg class="${cls}" viewBox="0 0 100 100" preserveAspectRatio="none" role="img" aria-label="Trend">${cls==="chart"?`<polygon points="0,100 ${p} 100,100" fill="currentColor" fill-opacity=".09"/>`:""}${th}<polyline points="${p}" fill="none" stroke="currentColor" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg>`,lo,hi}}
+
+function render(){
+const R=calc(),al=R.filter(x=>x.s!=="ok"),last=rows[rows.length-1].date;
+$("client").textContent=CLIENT;$("src").textContent=own?"Your data":"Sample data";$("range").textContent="Last 7 days to "+fd(last)+" vs the 7 days before";
+const sops=[...new Set(al.filter(x=>x.t.sop_id).map(x=>x.t.sop_id))];
+$("headline").textContent=al.length?`${al.length} of ${R.length} KPIs need action.`:"Every KPI is inside its alert level.";
+$("sub").textContent=al.length?`They map to ${sops.length} checklist${sops.length===1?"":"s"}. Create the tasks below and the right owner gets the steps.`:"Nothing to do this week. Check the trends or adjust the alert levels.";
+{const cnt=q=>R.filter(x=>x.s===q).length,open=tasks.filter(k=>!k.closed).length;
+$("sum").innerHTML=[["critical","Critical",cnt("critical")],["alert","Alert",cnt("alert")],["ok","On track",cnt("ok")],["info","Open tasks",open]].map(([c,l,n])=>`<div class="tile ${c}"><span class="n">${n}</span><span>${l}</span></div>`).join("")}
+$("cards").innerHTML=HEAD.map(k=>R.find(x=>x.t.kpi===k)).filter(Boolean).map(({t,v,p,s})=>{
+const ch=(v-p)/p*100,good=(ch>=0)===(t.direction==="min"),sp=line(series(t.kpi).slice(-30),t.alert_at,"sp").svg;
+return `<div class="card ${s}"><div class="k"><span>${M[t.kpi][0]}</span><span class="badge ${s}">${LAB[s]}</span></div>
+<div class="v">${M[t.kpi][1](v)}</div><div class="d ${good?"good":"bad"}">${ch>=0?"▲":"▼"} ${Math.abs(ch).toFixed(1)}% vs prior week</div>${sp}</div>`}).join("");
+$("tabs").innerHTML=CH.map(k=>`<button class="ghost" data-c="${k}" aria-pressed="${k===ck}">${M[k][0]}</button>`).join("");
+const t=TH.find(x=>x.kpi===ck),sr=series(ck),L=line(sr,t?t.alert_at:null,"chart"),dts=rows.slice(6);
+$("chart").innerHTML=L.svg+`<div class="axis"><span>${fd(dts[0].date)}</span><span>Range ${M[ck][1](L.lo)} to ${M[ck][1](L.hi)}</span><span>${fd(dts[dts.length-1].date)}</span></div>`;
+$("alerts").innerHTML=al.length?al.map(({t,v,s})=>{const so=D.sops[t.sop_id],has=tasks.some(k=>k.sop===t.sop_id&&!k.closed);
+return `<div class="row"><div><b>${M[t.kpi][0]}</b> is ${M[t.kpi][1](v)} <span class="badge ${s}">${LAB[s]}</span><div class="meta">${t.direction==="min"?"Alert below":"Alert above"} ${M[t.kpi][1](t.alert_at)}${so?" · SOP: "+so.name:" · no SOP linked"}</div></div>
+${so?(has?'<span class="tag">Task open</span>':`<button data-run="${t.sop_id}" data-kpi="${t.kpi}">Create task</button>`):""}</div>`}).join("")
++(sops.some(s=>!tasks.some(k=>k.sop===s&&!k.closed))?'<div class="row"><span></span><button class="ghost" data-all="1">Create all tasks</button></div>':""):'<div class="empty">Nothing needs action.</div>';
+$("tasks").innerHTML=tasks.length?tasks.map((k,i)=>{const so=D.sops[k.sop],st=D.steps[k.sop],d=k.done.filter(Boolean).length;
+return `<div class="task"><b>${so.name}</b> <span class="tag">${so.owner}</span><div class="meta">Triggered by ${M[k.kpi][0]} · about ${so.mins} min</div>
+<div class="bar"><i style="width:${d/st.length*100}%"></i></div>
+${st.map((x,j)=>`<label><input type="checkbox" data-t="${i}" data-s="${j}" ${k.done[j]?"checked":""}><span>${x[0]}<span class="meta"> Log: ${x[1]}</span></span></label>`).join("")}
+<div class="meta">${d===st.length?"Completed.":d+" of "+st.length+" steps done"}</div>${d===st.length&&!k.closed?`<button data-close="${i}">Close task</button>`:""}</div>`}).join("")
++'<div class="row"><span></span><button class="ghost" data-clear="1">Clear all tasks</button></div>':'<div class="empty">No tasks yet. Create one from an alert.</div>';
+$("stock").innerHTML=`<table><tr><th>Product</th><th>In stock</th><th>Reorder at</th><th>Lead time</th><th>Status</th></tr>`+prods.map(p=>{const lo=p.stock<p.reorder;
+return `<tr><td>${p.name}</td><td>${p.stock}</td><td>${p.reorder}</td><td>${p.lead} days</td><td class="${lo?"bad":"good"}">${lo?"Below reorder point":"OK"}</td></tr>`}).join("")+"</table>";
+$("thr").innerHTML=`<table><tr><th>KPI</th><th>Rule</th><th>Alert level</th><th>Critical level</th><th>SOP</th></tr>`+TH.map((t,i)=>`<tr><td>${M[t.kpi][0]}</td><td>${t.direction==="min"?"Below":"Above"}</td>
+<td><input type="number" step="any" aria-label="Alert level for ${M[t.kpi][0]}" data-th="${i}" data-f="alert_at" value="${t.alert_at}"></td>
+<td><input type="number" step="any" aria-label="Critical level for ${M[t.kpi][0]}" data-th="${i}" data-f="critical_at" value="${t.critical_at}"></td><td>${D.sops[t.sop_id]?D.sops[t.sop_id].name:"–"}</td></tr>`).join("")+"</table>"}
+
+function addTask(sop,kpi){if(tasks.some(k=>k.sop===sop&&!k.closed))return;tasks.push({sop,kpi,done:D.steps[sop].map(()=>false),closed:false})}
+document.addEventListener("click",e=>{const d=e.target.dataset;
+if(d.c){ck=d.c;render();return}
+if(d.run){addTask(d.run,d.kpi)}
+if(d.all){calc().filter(x=>x.s!=="ok"&&x.t.sop_id).forEach(x=>addTask(x.t.sop_id,x.t.kpi))}
+if(d.close!==undefined){tasks[d.close].closed=true;tasks=tasks.filter(k=>!k.closed)}
+if(d.clear){tasks=[]}
+if(d.run||d.all||d.close!==undefined||d.clear){save();render()}});
+document.addEventListener("change",e=>{const t=e.target,d=t.dataset;
+if(d.t){tasks[d.t].done[d.s]=t.checked;save();render()}
+if(d.th){const v=parseFloat(t.value);if(!isNaN(v)){TH[d.th][d.f]=v;render();const el=document.querySelector(`[data-th="${d.th}"][data-f="${d.f}"]`);el&&el.focus()}}});
+function csv(txt){const L=txt.trim().split(/\r?\n/),h=L[0].split(",").map(x=>x.trim());return L.slice(1).map(l=>{const c=l.split(","),o={};h.forEach((k,i)=>o[k]=c[i]===""||isNaN(+c[i])?c[i]:+c[i]);return o})}
+const need=["date","revenue","orders","sessions","ad_spend","new_customers","refunds","on_hold_orders","avg_fulfilment_hours"];
+function readFile(el,fn){const f=el.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{fn(csv(String(r.result)));$("err").textContent=""}catch(x){$("err").textContent="Could not read that file: "+x.message}};r.readAsText(f)}
+$("f1").addEventListener("change",e=>readFile(e.target,d=>{const miss=need.filter(k=>!(k in d[0]));if(miss.length)throw new Error("missing columns: "+miss.join(", "));if(d.length<14)throw new Error("need at least 14 days of data");
+d.sort((a,b)=>a.date<b.date?-1:1);rows=d;own=true;render()}));
+$("f2").addEventListener("change",e=>readFile(e.target,d=>{if(!d.length||!("kpi" in d[0])||!("alert_at" in d[0]))throw new Error("expected columns kpi, direction, alert_at, critical_at");TH=d.filter(x=>M[x.kpi]);render()}));
+$("reset").addEventListener("click",()=>{rows=D.daily;TH=D.th.map(x=>({...x}));own=false;$("f1").value="";$("f2").value="";$("err").textContent="";render()});
+render();
+</script>
+</body>
+</html>

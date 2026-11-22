@@ -1,0 +1,12 @@
+kpi,direction,alert_at,critical_at,sop_id,owner_role
+revenue_per_day,min,11000,9500,weekly_review,Founder
+orders_per_day,min,115,100,weekly_review,Founder
+aov,min,85,80,weekly_review,Founder
+conversion_rate,min,0.026,0.024,ads_triage,Media buyer
+mer,min,2.5,2.0,ads_triage,Media buyer
+cac,max,60,75,ads_triage,Media buyer
+repeat_order_share,min,0.3,0.25,weekly_review,Founder
+refund_rate,max,0.04,0.06,refund_spike,Support lead
+avg_fulfilment_hours,max,36,48,order_exceptions,Ops manager
+on_hold_orders,max,10,25,order_exceptions,Ops manager
+skus_below_reorder,max,0,3,low_stock,Ops manager

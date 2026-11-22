@@ -1,0 +1,54 @@
+sop_id,step_no,step,est_minutes,evidence_to_log
+ads_triage,1,"Open the dashboard. Note which of MER, CAC and conversion breached, and by how much.",3,Screenshot of the KPI cards
+ads_triage,2,"In each ad platform, sort campaigns by spend. List any with spend above 2x target CAC and no purchases.",8,List of campaign names
+ads_triage,3,"Check creative fatigue: frequency above 3.5, or click-through rate down more than 25% vs the prior 14 days.",6,List of flagged ads
+ads_triage,4,Compare platform-reported purchases with Shopify orders for the last 7 days. A gap above 25% means check the pixel and Conversions API.,5,Both numbers
+ads_triage,5,"Check traffic quality: mobile vs desktop conversion, page speed, and whether any advertised product is out of stock.",5,Short notes
+ads_triage,6,"Pause the waste, move about 20% of budget from the worst to the best campaign, and queue 2 new creatives.",5,Change log
+ads_triage,7,Set a recheck in 48 hours and post a summary in the team channel.,3,Link to the message
+order_exceptions,1,"In Shopify, filter orders that are on hold, unfulfilled for 48 hours or more, or payment pending.",3,Count of orders
+order_exceptions,2,"For fraud-flagged orders, check address mismatch, repeated cards and unusual quantities. Approve or cancel each.",6,Decision per order
+order_exceptions,3,"For orders stuck in fulfilment, contact the warehouse or 3PL and find out why (stock, picking, carrier).",5,Warehouse reply
+order_exceptions,4,Message affected customers with a new delivery estimate using the saved template.,3,Template used
+order_exceptions,5,Tag resolved orders 'exception-resolved' and note the cause.,2,Tag applied
+order_exceptions,6,"If three or more orders share one cause, open a fix ticket.",1,Ticket link
+refund_spike,1,Export refunds from the last 14 days. Tag each by reason.,6,Export file
+refund_spike,2,Group by SKU. Flag any SKU with a refund rate above 8% or three or more refunds with the same reason.,5,Flagged SKUs
+refund_spike,3,"If the reason is damaged in transit: check carrier, packaging and supplier batch. Ask 3 customers for photos.",8,Photos and carrier notes
+refund_spike,4,If the reason is not as described: compare the product page photos and copy with the real product. Fix the page.,5,Page updated
+refund_spike,5,"Decide the action: pause ads to the SKU, change packaging, or switch carrier. Record the owner and date.",3,Decision log
+refund_spike,6,Update the support macro and FAQ for this issue.,2,Macro link
+refund_spike,7,Add findings and cost impact to the weekly review.,1,Note added
+low_stock,1,List every SKU below its reorder point. Calculate days of cover: stock divided by average daily units over the last 14 days.,6,SKU list with cover
+low_stock,2,Mark any SKU where days of cover is shorter than supplier lead time as urgent.,3,Urgent list
+low_stock,3,Request a quote and confirm lead time from the supplier.,5,Supplier reply
+low_stock,4,"Raise the purchase order. Record PO number, quantity and expected arrival.",5,PO number
+low_stock,5,"For urgent SKUs, reduce ad spend on the product and add 'ships in X days' or backorder messaging.",4,Changes made
+low_stock,6,Update the reorder point if demand has changed.,2,New reorder point
+product_launch,1,"Confirm the product page: photos, copy, size guide, price and shipping info.",15,Page link
+product_launch,2,Test checkout end to end on mobile with a real discount code.,10,Test order number
+product_launch,3,Confirm inventory counts and set the reorder point.,5,Stock and reorder point
+product_launch,4,"Schedule email, SMS and social posts.",15,Schedule links
+product_launch,5,"Brief support on FAQs, returns policy and macros.",10,Brief sent
+product_launch,6,Set launch ad budgets and creatives. Add UTM tags.,15,Campaign names
+product_launch,7,Add launch KPIs to the dashboard and book a 24-hour review.,10,Calendar invite
+product_launch,8,"At 24 hours, review sales, conversion and issues. Decide what to change.",10,Review notes
+support_escalation,1,Review the customer's order and ticket history.,4,Summary
+support_escalation,2,"Set severity. P1: chargeback, legal or safety. P2: repeated failure or high value. P3: everything else.",2,Severity tag
+support_escalation,3,Reply within 2 hours for P1 and 8 hours for P2.,4,Reply sent
+support_escalation,4,"Offer a resolution within approved limits (refund, replacement or credit).",4,Resolution offered
+support_escalation,5,Log the outcome and a root-cause tag.,3,Tag applied
+support_escalation,6,Follow up in 3 days.,3,Follow-up sent
+weekly_review,1,Open the dashboard and compare the last 7 days with the prior 7.,5,Screenshot
+weekly_review,2,Review each KPI marked as a breach. Confirm an open task exists for it.,10,Task links
+weekly_review,3,"Review open tasks. Close, reassign or re-date anything overdue.",10,Updated task list
+weekly_review,4,Review last week's experiment: result and decision.,8,Decision
+weekly_review,5,Choose one priority and one experiment for this week.,7,Written down
+weekly_review,6,Post the summary in the team channel.,5,Message link
+new_hire_onboarding,1,"Create accounts with role-based access: Shopify, email, chat, password manager, dashboard.",20,Access checklist
+new_hire_onboarding,2,"Share the company overview, brand voice guide and product catalogue.",20,Links shared
+new_hire_onboarding,3,Walk through the dashboard: what each KPI means and what the thresholds are.,20,Walkthrough done
+new_hire_onboarding,4,Shadow each SOP assigned to the role once.,30,SOPs shadowed
+new_hire_onboarding,5,Complete one SOP independently with a reviewer's sign-off.,20,Reviewer sign-off
+new_hire_onboarding,6,Acknowledge each SOP in the SOP system.,5,Acknowledgements
+new_hire_onboarding,7,Book the 30-day check-in.,5,Calendar invite

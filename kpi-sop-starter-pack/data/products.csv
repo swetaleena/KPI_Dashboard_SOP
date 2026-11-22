@@ -1,0 +1,13 @@
+sku,name,category,price,cogs,stock_on_hand,reorder_point,lead_time_days
+KH-CAN-001,Ember Soy Candle,Candles,28,9.5,420,150,21
+KH-CAN-002,Cedar & Sage Candle,Candles,32,10.5,380,150,21
+KH-CAN-003,Candle Gift Set,Candles,64,21.0,150,60,28
+KH-CER-004,Hand-Glazed Mug Set,Ceramics,54,17.0,210,80,35
+KH-CER-005,Speckle Serving Bowl,Ceramics,46,15.0,130,60,35
+KH-LIN-006,Stonewashed Linen Throw,Linen,89,31.0,38,60,42
+KH-LIN-007,Linen Napkins (set of 4),Linen,36,11.0,300,100,28
+KH-LIN-008,Linen Duvet Cover,Linen,129,46.0,95,40,42
+KH-LGT-009,Ceramic Table Lamp,Lighting,118,41.0,44,30,49
+KH-LGT-010,Brass Taper Holders,Lighting,42,13.0,260,90,28
+KH-LGT-011,Paper Shade Pendant,Lighting,76,25.0,120,40,49
+KH-DIF-012,Reed Diffuser,Fragrance,34,10.0,390,140,21
